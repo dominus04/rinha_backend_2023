@@ -6,21 +6,10 @@ class Conn:
         port="5432",
         dbname="python_test",
         user="postgres",
-        password="159357"
+        password="1234"
     )
 
     cur = conn.cursor()
-    cur.execute('''CREATE TABLE IF NOT EXISTS users(
-            id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-            apelido VARCHAR(32) NOT NULL UNIQUE,
-            nome VARCHAR(100) NOT NULL,
-            nascimento DATE NOT NULL,
-            stack VARCHAR(1024),
-            campo_busca TEXT GENERATED ALWAYS AS (LOWER(apelido || nome || stack)) STORED
-        );
-        ''')
-    conn.commit()
-
     def insert(self, content):
         with self.conn:
             try:
