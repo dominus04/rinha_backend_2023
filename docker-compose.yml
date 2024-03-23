@@ -8,16 +8,17 @@ services:
       image: dominus04/rinha2023
       hostname: api1
       depends_on:
-          - db
+          - postgres
       expose:
           - 80
+      command: python server.py
       deploy:
           resources:
               limits:
                   cpus: '0.5'
                   memory: '1GB'
 
-  db:
+  postgres:
     image: postgres
     environment:
       POSTGRES_USER: postgres
