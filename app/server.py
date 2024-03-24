@@ -62,7 +62,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                 try:
                     valida_dados(content)
                     uuid = self.conn.insert(content)
-                    self.set_response(201, location=f'http://localhost:8080/pessoas/{uuid}')
+                    self.set_response(201, location=f'http://localhost:9999/pessoas/{uuid}')
                 except Exception as err:
                     self.set_response(err.args[0])
 
