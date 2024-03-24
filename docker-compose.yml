@@ -11,9 +11,7 @@ services:
         postgres:
           condition: service_healthy
       expose:
-          - 8080
-      ports:
-        - 8080:8080
+          - 80
       restart:
         on-failure
       deploy:
@@ -21,6 +19,10 @@ services:
               limits:
                   cpus: '0.5'
                   memory: '1GB'
+
+  api2:
+    <<: *api
+    hostname: api2
 
   postgres:
     image: postgres
