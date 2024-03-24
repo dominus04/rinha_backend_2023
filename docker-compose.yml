@@ -8,7 +8,8 @@ services:
       image: dominus04/rinha2023
       hostname: api1
       depends_on:
-        - postgres
+        postgres:
+          condition: service_healthy
       expose:
           - 80
       restart:
@@ -31,6 +32,11 @@ services:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./postgresql.conf:/etc/postgresql/postgresql.conf
     command: postgres -c config_file=/etc/postgresql/postgresql.conf
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     deploy:
       resources:
         limits:
