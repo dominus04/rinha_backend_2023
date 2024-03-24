@@ -35,7 +35,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                         json = self.conn.search_by_uuid(uuid)
                         self.set_response(200, "application/json", content=json)
                     except Exception as err:
-                        self.set_response(404)
+                        self.set_response(400)
                 else:
                     try:
                         term = query
