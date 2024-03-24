@@ -7,6 +7,7 @@ services:
           dockerfile: ./Dockerfile
       image: dominus04/rinha2023
       hostname: api1
+      container_name: api1
       depends_on:
         postgres:
           condition: service_healthy
@@ -23,6 +24,7 @@ services:
   api2:
     <<: *api
     hostname: api2
+    container_name: api2
 
   nginx:
     image: nginx
