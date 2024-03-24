@@ -4,6 +4,9 @@ from database import Conn
 from services import valida_dados
 import json
 
+from signal import signal, SIGPIPE, SIG_DFL   
+signal(SIGPIPE,SIG_DFL)
+
 class RequestHandler(BaseHTTPRequestHandler):
 
     conn = Conn()
