@@ -2,7 +2,7 @@ import psycopg2, json
 
 class Conn:
     conn = psycopg2.connect(
-        host="0.0.0.0",
+        host="postgres",
         port="5432",
         dbname="python_test",
         user="postgres",
