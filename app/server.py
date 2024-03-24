@@ -69,4 +69,5 @@ class RequestHandler(BaseHTTPRequestHandler):
 if __name__ == '__main__':
     server_adress = ('', 8080)
     httpd = HTTPServer(server_adress, RequestHandler)
+    print("Server starting")
     httpd.serve_forever()
