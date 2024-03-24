@@ -14,7 +14,7 @@ services:
       expose:
           - 80
       ports:
-        -8080:8080
+        - 8080:8080
       restart:
         on-failure
       deploy:
@@ -28,7 +28,7 @@ services:
     hostname: api2
     container_name: api2
     ports:
-      -8081:8080
+      - 8081:8080
 
   # nginx:
   #   image: nginx
