@@ -13,7 +13,6 @@ services:
           condition: service_healthy
       expose:
           - 80
-      ports:
       restart:
         on-failure
       deploy:
