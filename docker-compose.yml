@@ -43,6 +43,8 @@ services:
           memory: '0.5GB'
 
   postgres:
+    container_name: postgres
+    hostname: postgres
     image: postgres
     environment:
       POSTGRES_USER: postgres
@@ -65,8 +67,3 @@ services:
         limits:
           cpus: '0.9'
           memory: '1.5GB'
-
-networks:
-  default:
-    driver: bridge
-    name: rinha
