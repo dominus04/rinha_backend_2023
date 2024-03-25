@@ -5,7 +5,7 @@ def valida_dados(content) -> bool:
         if type(content['nome']) != str:
             raise TypeError(400)
         
-        if content['stack']:
+        if content['stack'] and isinstance(content['stack'], list):
             for tech in content['stack']:
                 if type(tech) != str or len(tech) > 32:
                     raise TypeError(400)
