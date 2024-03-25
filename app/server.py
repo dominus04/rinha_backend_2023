@@ -3,6 +3,7 @@ from urllib.parse import urlparse, parse_qs
 from database import Conn
 from services import valida_dados
 import json
+import sys
 
 from signal import signal, SIGPIPE, SIG_DFL   
 signal(SIGPIPE,SIG_DFL)
@@ -12,7 +13,8 @@ class RequestHandler(BaseHTTPRequestHandler):
     conn = Conn()
     
     def log_message(self, format, *args):
-        print(*args)
+        message = format % args
+        sys.stderr.write("%s - - [%s] %s\n" %(message.translate(self._control_char_table)))
     
     def set_response(self, status_code, content_type = None, location = None, content=None):
         self.send_response(status_code)
