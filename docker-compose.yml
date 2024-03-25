@@ -15,11 +15,11 @@ services:
           - 80
       restart:
         on-failure
-      # deploy:
-          # resources:
-              # limits:
-              #     cpus: '0.45'
-              #     memory: '0.5GB'
+      deploy:
+          resources:
+              limits:
+                  cpus: '0.45'
+                  memory: '0.5GB'
 
   api2:
     <<: *api
@@ -36,11 +36,11 @@ services:
     depends_on:
       - api1
       - api2
-    # deploy:
-      # resources:
-        # limits:
-        #   cpus: '0.1'
-        #   memory: '0.5GB'
+    deploy:
+      resources:
+        limits:
+          cpus: '0.1'
+          memory: '0.5GB'
 
   postgres:
     container_name: postgres
@@ -62,8 +62,8 @@ services:
       start_period: 10s
       timeout: 5s
       retries: 5
-    # deploy:
-      # resources:
-        # limits:
-        #   cpus: '0.5'
-        #   memory: '1.5GB'
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: '1.5GB'
