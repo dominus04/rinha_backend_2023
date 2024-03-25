@@ -13,8 +13,9 @@ class RequestHandler(BaseHTTPRequestHandler):
     conn = Conn()
     
     def log_message(self, format, *args):
-        message = format % args
-        sys.stderr.write("%s\n" %(message.translate(self._control_char_table)))
+        message = (format % args).translate(self._control_char_table)
+        if ' 502' in message:
+            sys.stderr.write("%s\n" %(message))
     
     def set_response(self, status_code, content_type = None, location = None, content=None):
         self.send_response(status_code)
