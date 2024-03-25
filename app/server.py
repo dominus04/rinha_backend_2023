@@ -14,7 +14,7 @@ class RequestHandler(BaseHTTPRequestHandler):
     
     def log_message(self, format, *args):
         message = format % args
-        sys.stderr.write("%s - - [%s] %s\n" %(message.translate(self._control_char_table)))
+        sys.stderr.write("%s\n" %(message.translate(self._control_char_table)))
     
     def set_response(self, status_code, content_type = None, location = None, content=None):
         self.send_response(status_code)
