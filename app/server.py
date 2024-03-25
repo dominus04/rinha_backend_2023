@@ -12,7 +12,7 @@ class RequestHandler(BaseHTTPRequestHandler):
     conn = Conn()
     
     def log_message(self, format, *args):
-        return
+        print(*args)
     
     def set_response(self, status_code, content_type = None, location = None, content=None):
         self.send_response(status_code)
