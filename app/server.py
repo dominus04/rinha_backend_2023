@@ -14,7 +14,7 @@ class RequestHandler(BaseHTTPRequestHandler):
     
     def log_message(self, format, *args):
         message = (format % args).translate(self._control_char_table)
-        if ' 502' in message:
+        if ' 200' not in message or ' 400' not in message or ' 402' not in message or ' 201' not in message or ' 404' not in message:
             sys.stderr.write("%s\n" %(message))
     
     def set_response(self, status_code, content_type = None, location = None, content=None):
