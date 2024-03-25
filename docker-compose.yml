@@ -15,8 +15,8 @@ services:
           - 80
       restart:
         on-failure
-      deploy:
-          resources:
+      # deploy:
+          # resources:
               # limits:
               #     cpus: '0.45'
               #     memory: '0.5GB'
@@ -36,8 +36,8 @@ services:
     depends_on:
       - api1
       - api2
-    deploy:
-      resources:
+    # deploy:
+      # resources:
         # limits:
         #   cpus: '0.1'
         #   memory: '0.5GB'
@@ -62,8 +62,8 @@ services:
       start_period: 10s
       timeout: 5s
       retries: 5
-    deploy:
-      resources:
+    # deploy:
+      # resources:
         # limits:
         #   cpus: '0.5'
         #   memory: '1.5GB'
