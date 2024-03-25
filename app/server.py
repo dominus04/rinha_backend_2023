@@ -11,7 +11,7 @@ class RequestHandler(BaseHTTPRequestHandler):
 
     conn = Conn()
     
-    def log_message(self, format: str, *args: json.Any):
+    def log_message(self, format, *args):
         return
     
     def set_response(self, status_code, content_type = None, location = None, content=None):
