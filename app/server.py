@@ -1,9 +1,9 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from urllib.parse import urlparse, parse_qs
+import urllib.parse
 from database import Conn
 from services import valida_dados
 import json
-import sys
+import os
 
 from signal import signal, SIGPIPE, SIG_DFL   
 signal(SIGPIPE,SIG_DFL)
@@ -23,55 +23,42 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.wfile.write(content.encode("utf-8"))
 
     def do_GET(self):
-        urlparsed = urlparse(self.path)
-        path = urlparsed.path.split('/')
-        query_url_parsed = urlparsed.query
-        query = parse_qs(query_url_parsed)
-        
-        endpoint = path[1]
-        
-        match endpoint:
-                
-            case 'pessoas':
-                if not query_url_parsed:
-                    try:
-                        uuid = path[2] 
-                        json = self.conn.search_by_uuid(uuid)
-                        self.set_response(200, "application/json", content=json)
-                    except Exception as err:
-                        self.set_response(400)
-                else:
-                    try:
-                        term = query
-                        json = self.conn.search_by_term(term['t'][0])
-                        self.set_response(200, "application/json", content=json)
-                    except Exception as err:
-                        self.set_response(400)
-                        
-            case 'contagem-pessoas':
-                total_pessoas = self.conn.get_total_pessoas()
-                self.set_response(200, 'text/plain', content=total_pessoas)
-                
-            case _:
-                self.set_response(404)
-                
-                
-    def do_POST(self):
-        path = urlparse(self.path).path
-        content_type = self.headers.get_content_type()
-        
-        if path == '/pessoas' and content_type == 'application/json':
-                length = int(self.headers.get('content-length'))
-                content = json.loads(self.rfile.read(length))
+        if self.path.startswith('/pessoas'):
+            if '?' in self.path:
+                query = urllib.parse.urlparse(self.path).query
+                term = urllib.parse.parse_qs(query).get('t')[0]
                 try:
-                    valida_dados(content)
-                    uuid = self.conn.insert(content)
-                    self.set_response(201, location=f'http://localhost:9999/pessoas/{uuid}')
+                    json = self.conn.search_by_term(term)
+                    self.set_response(200, 'application/json', content=json)
                 except Exception as err:
-                    self.set_response(err.args[0])
+                    self.set_response(400)
+            else:
+                try:
+                    uuid = self.path.split('/')[-1]
+                    json = self.conn.search_by_uuid(uuid)
+                    self.set_response(200, "application/json", content=json)
+                except Exception as err:
+                    self.set_response(400)
+        elif self.path == '/contagem-pessoas':
+            total_pessoas = self.conn.get_total_pessoas()
+            self.set_response(200, 'text/plain', content=total_pessoas)
+        else:
+            self.set_response(404)
+
+    def do_POST(self):
+        if self.path == '/pessoas':
+            content_length = int(self.headers['Content-Length'])
+            post_data = json.loads(self.rfile.read(content_length))
+            try:
+                valida_dados(post_data)
+                uuid = self.conn.insert(post_data)
+                self.set_response(201, location=f'http://localhost:9999/pessoas/{uuid}')
+            except Exception as err:
+                self.set_response(err.args[0])
+                
 
 if __name__ == '__main__':
-    server_adress = ('', 8080)
+    server_adress = ('', int(os.environ['HTTP_PORT']))
     httpd = HTTPServer(server_adress, RequestHandler)
     print("Server starting")
     httpd.serve_forever()

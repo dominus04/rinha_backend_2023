@@ -1,4 +1,4 @@
-def valida_dados(content) -> bool:
+def valida_dados(content):
         if not content['nome'] or not content['apelido']:
             raise ValueError(422)
         
